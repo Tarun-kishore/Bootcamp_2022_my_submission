@@ -1,0 +1,48 @@
++r
+Starting program: /mnt/c/Users/tarun/Documents/Coding/iitb bootcamp/My Programs/week1/gdb/a.out 
+
+Program received signal SIGSEGV, Segmentation fault.
+0x000055555555523e in main (argc=1, argv=0x7fffffffddf8) at pointers.cpp:13
+warning: Source file is more recent than executable.
+13	  cout << *p << endl;
++where
+#0  0x000055555555523e in main (argc=1, argv=0x7fffffffddf8) at pointers.cpp:13
++l
+8	  int *q = NULL;
+9	
+10	  cout << *p << endl;
+11	
+12	  p = q;
+13	  cout << *p << endl;
+14	
+15	  p = &b;
+16	  cout << *p << endl;
+17	
++b 12
+Breakpoint 1 at 0x555555555232: file pointers.cpp, line 12.
++b 12
+Note: breakpoint 1 also set at pc 0x555555555232.
+Breakpoint 2 at 0x555555555232: file pointers.cpp, line 12.
++r
+Starting program: /mnt/c/Users/tarun/Documents/Coding/iitb bootcamp/My Programs/week1/gdb/a.out 
+
+Breakpoint 1, main (argc=1, argv=0x7fffffffddf8) at pointers.cpp:12
+12	  p = q;
++p p
+$1 = (int *) 0x7fffffffdce0
++c
+Continuing.
+
+Program received signal SIGSEGV, Segmentation fault.
+0x000055555555523e in main (argc=1, argv=0x7fffffffddf8) at pointers.cpp:13
+13	  cout << *p << endl;
++p p
+$2 = (int *) 0x0
++c
+Continuing.
+
+Program terminated with signal SIGSEGV, Segmentation fault.
+The program no longer exists.
++c
+The program is not being run.
++q

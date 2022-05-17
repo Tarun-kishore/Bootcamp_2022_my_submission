@@ -1,0 +1,80 @@
++r
+Starting program: /mnt/c/Users/tarun/Documents/Coding/iitb bootcamp/My Programs/week1/gdb/a.out 
+[Inferior 1 (process 655) exited normally]
++l
+1	#include<iostream>
+2	using namespace std;
+3	
+4	int main(int argc, char* argv[]) {
+5	
+6	  int n = 10;
+7	
+8	  int second_last = 1;
+9	  int last = 1;
+10	
++l
+11	  cout << second_last << endl << last << endl;
+12	
+13	  for(int i=1; i<=10; i++) {
+14	    int next = second_last + last;
+15	    cout << next << endl;
+16	    last = next;
+17	    second_last = last;
+18	  }
+19	
+20	  return 0;
++l 14
+9	  int last = 1;
+10	
+11	  cout << second_last << endl << last << endl;
+12	
+13	  for(int i=1; i<=10; i++) {
+14	    int next = second_last + last;
+15	    cout << next << endl;
+16	    last = next;
+17	    second_last = last;
+18	  }
++r
+Starting program: /mnt/c/Users/tarun/Documents/Coding/iitb bootcamp/My Programs/week1/gdb/a.out 
+[Inferior 1 (process 659) exited normally]
++b 14
+Breakpoint 1 at 0x555555555229: file fibbonaci.cpp, line 14.
++r
+Starting program: /mnt/c/Users/tarun/Documents/Coding/iitb bootcamp/My Programs/week1/gdb/a.out 
+
+Breakpoint 1, main (argc=1, argv=0x7fffffffddf8) at fibbonaci.cpp:14
+14	    int next = second_last + last;
++p second_last
+$1 = 1
++p last
+$2 = 1
++c
+Continuing.
+
+Breakpoint 1, main (argc=1, argv=0x7fffffffddf8) at fibbonaci.cpp:14
+14	    int next = second_last + last;
++p last
+$3 = 2
++p second_last
+$4 = 2
++c
+Continuing.
+
+Breakpoint 1, main (argc=1, argv=0x7fffffffddf8) at fibbonaci.cpp:14
+14	    int next = second_last + last;
++p last
+$5 = 4
++p second_last
+$6 = 4
++l
+9	  int last = 1;
+10	
+11	  cout << second_last << endl << last << endl;
+12	
+13	  for(int i=1; i<=10; i++) {
+14	    int next = second_last + last;
+15	    cout << next << endl;
+16	    last = next;
+17	    second_last = last;
+18	  }
++q
