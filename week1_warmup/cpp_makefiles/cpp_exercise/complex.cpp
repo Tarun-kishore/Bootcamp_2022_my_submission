@@ -2,15 +2,30 @@
 
 using namespace std;
 
+class Complex{
+    public :
+        int real,imag;
+};
+
+Complex add(Complex c1, Complex c2){
+    Complex res;
+    res.real = c1.real + c2.real;
+    res.imag = c1.imag + c2.imag;
+
+    return res;
+}
+
 int main(){
-    int a1,a2,b1,b2;
+    Complex a,b;
 
     cout<< "Enter first complex number : ";
-    cin>>a1>>a2;
+    cin>>a.real>>a.imag;
 
     cout<< "Enter Second complex number : ";
-    cin>>b1>>b2;
+    cin>>b.real>>b.imag;
 
-    cout<< "Result : "<< (a1+b1)<< " "<< (a2+b2)<< "\n";
+    Complex result = add(a,b);
+
+    cout<< "Result : "<< result.real<< " "<< result.imag<< "\n";
     return 0;
 }
