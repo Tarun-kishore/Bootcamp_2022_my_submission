@@ -95,10 +95,10 @@ int main(int argc, char *argv[]) {
   listen(sockfd, 5);
   clilen = sizeof(cli_addr);
 
-  /* accept a new request, create a newsockfd */
 
   cout<< "Server running successfully. Press Ctrl-C to close the server\n";
   while(true){
+  /* accept a new request, create a newsockfd */
   newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, &clilen);
   if (newsockfd < 0)
     error("ERROR on accept");
@@ -107,8 +107,8 @@ int main(int argc, char *argv[]) {
 
 
   threadParameters params = threadParameters(buffer,newsockfd);
+  //Creating seperate thread for the client
   pthread_create(&thread_id , NULL, handlingClient , &params);
-  //handlingClient(buffer,newsockfd,n);
 
 }
   return 0;
