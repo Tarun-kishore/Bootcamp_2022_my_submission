@@ -9,7 +9,7 @@ client: $(CLIENT_FILE)
 	$(CC) $(CLIENT_FILE) -o client
 
 server: $(SERVER_FILE)
-	$(CC) $(SERVER_FILE) -o server
+	$(CC) -pthread $(SERVER_FILE) -o server
 
 clean:
 	rm -f client server

@@ -8,6 +8,7 @@
 
 #include <pthread.h>
 
+#define BUFFER_SIZE 256
 using namespace std;
 
 void error(string msg) {
@@ -15,12 +16,45 @@ void error(string msg) {
   exit(1);
 }
 
+//object of this class will be used to pass parameter to start function during thread creation
+class threadParameters{
+    public:
+        char* buffer;
+        int newsockfd;
+
+        threadParameters(char* passedBuffer, int passedNewsockfd){
+            buffer = passedBuffer;
+            newsockfd = passedNewsockfd;
+        }
+};
+
+void* handlingClient(void* parameters){
+  /* read message from client */
+    threadParameters params = *(threadParameters*) parameters;
+    char* buffer =params.buffer;
+    int newsockfd = params.newsockfd;
+
+  bzero(buffer, BUFFER_SIZE);
+  int n;
+  n = read(newsockfd, buffer, BUFFER_SIZE-1);
+  if (n < 0)
+    error("ERROR reading from socket");
+  cout<< "Here is the message: "<< buffer<< "\n";
+
+  /* send reply to client */
+
+  n = write(newsockfd,buffer, BUFFER_SIZE-1);
+  if (n < 0)
+    error("ERROR writing to socket");
+
+  return 0;
+}
+
 int main(int argc, char *argv[]) {
   int sockfd, newsockfd, portno;
   socklen_t clilen;
-  char buffer[256];
+  char buffer[BUFFER_SIZE];
   struct sockaddr_in serv_addr, cli_addr;
-  int n;
 
   if (argc < 2) {
     cerr<< "ERROR, no port provided\n";
@@ -69,19 +103,13 @@ int main(int argc, char *argv[]) {
   if (newsockfd < 0)
     error("ERROR on accept");
 
-  /* read message from client */
+  pthread_t thread_id;
 
-  bzero(buffer, 256);
-  n = read(newsockfd, buffer, 255);
-  if (n < 0)
-    error("ERROR reading from socket");
-  cout<< "Here is the message: "<< buffer<< "\n";
 
-  /* send reply to client */
+  threadParameters params = threadParameters(buffer,newsockfd);
+  pthread_create(&thread_id , NULL, handlingClient , &params);
+  //handlingClient(buffer,newsockfd,n);
 
-  n = write(newsockfd,buffer, 18);
-  if (n < 0)
-    error("ERROR writing to socket");
 }
   return 0;
 }

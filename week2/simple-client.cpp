@@ -6,6 +6,7 @@
 
 #include <netdb.h>
 
+#define BUFFER_SIZE 256
 using namespace std;
 
 void error(string msg) {
@@ -21,7 +22,7 @@ int main(int argc, char *argv[]) {
   struct hostent *server;
 
   // Buffer is character stream which will be used to store and transfer data
-  char buffer[256];
+  char buffer[BUFFER_SIZE];
   if (argc < 3) {
     cerr<< "usage "<< argv[0]<< " hostname port\n";
     exit(0);
@@ -48,7 +49,7 @@ int main(int argc, char *argv[]) {
   // bzero is not ISO C
   memset((char *)&serv_addr,0, sizeof(serv_addr));
   
-  // AF_NET means the communication is IPV4
+  // AF_INET means the communication is IPV4
   serv_addr.sin_family = AF_INET;
 
   //memcpy will copy n bytes from source to destination
@@ -67,19 +68,19 @@ int main(int argc, char *argv[]) {
   /* ask user for input */
 
   cout<< "Please enter the message: ";
-  memset(buffer,0, 256);
-  fgets(buffer, 255, stdin);
+  memset(buffer,0, BUFFER_SIZE);
+  fgets(buffer, BUFFER_SIZE-1, stdin);
 
   /* send user message to server */
 
   n = write(sockfd, buffer, strlen(buffer));
   if (n < 0)
     error("ERROR writing to socket");
-  bzero(buffer, 256);
+  bzero(buffer, BUFFER_SIZE);
 
   /* read reply from server */
 
-  n = read(sockfd, buffer, 255);
+  n = read(sockfd, buffer, BUFFER_SIZE-1);
   if (n < 0)
     error("ERROR reading from socket");
   cout<< "Server response: "<<  buffer<< "\n";
